@@ -1,12 +1,16 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
 
 import Toast from 'grommet/components/Toast'
 import Heading from 'grommet/components/Heading'
 import Box from 'grommet/components/Box'
 import Button from 'grommet/components/Button'
-import Label  from 'grommet/components/Label'
-import Form  from 'grommet/components/Form'
+import Label from 'grommet/components/Label'
+import Form from 'grommet/components/Form'
+
+import Blockchain from '../Blockchain/Blockchain'
+
+
 
 class Put extends Component {
     constructor(props) {
@@ -23,6 +27,20 @@ class Put extends Component {
 
         this.handleUploadFile = this.handleUploadFile.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+
+        this.blockchain = new Blockchain()
+        // this.blockchain.mine("123")
+        //
+        // //
+        // console.log(this.blockchain)
+        // console.log("mining..")
+        this.blockchain.loadFromFile(response => {
+
+
+
+            console.log( this.blockchain.latestBlock)
+        })
+
     }
 
     handleUploadFile(event) {
@@ -30,8 +48,8 @@ class Put extends Component {
         const name = event.target.name
         if (data.type.match('image/*')) {
             const reader = new FileReader()
-            reader.onload = (function(theFile) {
-                return function(e) {
+            reader.onload = (function (theFile) {
+                return function (e) {
                     this.setState({
                         [name]: e.target.result
                     })
@@ -44,6 +62,8 @@ class Put extends Component {
                 failure: `We can accept only image files.`
             })
         }
+
+
     }
 
     handleSubmit(event) {
@@ -65,6 +85,12 @@ class Put extends Component {
                         hash: _hash,
                         success: `Success! Your hash: ${_hash}`
                     })
+                    console.log("mining")
+                    this.blockchain.mine(_hash)
+                    this.blockchain.saveToFile()
+                    //
+                    console.log(this.blockchain)
+                    console.log("mining..")
                 }
             })
         } else {
@@ -77,6 +103,7 @@ class Put extends Component {
         this.setState({
             loading: false
         })
+
     }
 
     render() {
@@ -87,18 +114,18 @@ class Put extends Component {
                     <Form onSubmit={this.handleSubmit}>
                         <Box pad='small' align='center'>
                             <Label>Please attach your image:</Label>
-                            <input id='file' name='document' type='file' onChange={this.handleUploadFile} />
+                            <input id='file' name='document' type='file' onChange={this.handleUploadFile}/>
                         </Box>
                         <Box pad='small' align='center'>
-                            { this.state.loading ? 'Loading...' : <Button primary={true} type='submit' label='Upload' /> }
+                            {this.state.loading ? 'Loading...' : <Button primary={true} type='submit' label='Upload'/>}
                         </Box>
                     </Form>
-                    { this.state.hash !== '' ? `Note your hash: ${this.state.hash}` : '' }
+                    {this.state.hash !== '' ? `Note your hash: ${this.state.hash}` : ''}
                 </Box>
-                { this.state.modalOpen && <Toast
-                    status={this.state.success ? 'ok' : 'critical' }>
-                    <p>{ this.state.success ? this.state.success : null }</p>
-                    <p>{ this.state.failure ? this.state.failure : null }</p>
+                {this.state.modalOpen && <Toast
+                    status={this.state.success ? 'ok' : 'critical'}>
+                    <p>{this.state.success ? this.state.success : null}</p>
+                    <p>{this.state.failure ? this.state.failure : null}</p>
                 </Toast>
                 }
             </Box>
@@ -108,7 +135,8 @@ class Put extends Component {
 
 function mapStateToProps(state) {
     return {
-        ipfs: state.ipfs
+        ipfs: state.ipfs,
+        blockchain: state.blockchain
     }
 }
 

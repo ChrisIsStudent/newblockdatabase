@@ -72,6 +72,7 @@ class Home extends Component {
         return (
             <Box>
                 <Box align="center">
+
                     <Heading align="center">Load data from IPFS</Heading>
                     <Form onSubmit={this.handleSubmit}>
                         <Box pad='small' align='center'>
@@ -117,7 +118,8 @@ class Home extends Component {
 
 function mapStateToProps(state) {
     return {
-        ipfs: state.ipfs
+        ipfs: state.ipfs,
+        blockchain: state.blockchain
     }
 }
 

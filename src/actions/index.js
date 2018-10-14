@@ -7,8 +7,15 @@ export function initIPFS(payload) {
         protocol: 'https'
     })
 
+
     return {
         type: 'INIT_IPFS',
         payload: ipfs
     }
 }
+
+
+
+
+
+

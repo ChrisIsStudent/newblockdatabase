@@ -1,31 +1,4 @@
-// import React, { Component } from 'react';
-// import logo from './logo.svg';
-// import './App.css';
-//
-// class App extends Component {
-//   render() {
-//     return (
-//       <div className="App">
-//         <header className="App-header">
-//           <img src={logo} className="App-logo" alt="logo" />
-//           <p>
-//             Edit <code>src/App.js</code> and save to reload.
-//           </p>
-//           <a
-//             className="App-link"
-//             href="https://reactjs.org"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             Learn React
-//           </a>
-//         </header>
-//       </div>
-//     );
-//   }
-// }
-//
-// export default App;
+
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter, Route } from 'react-router-dom'
@@ -40,11 +13,14 @@ import Footer from '../containers/Footer'
 import Status from './Status'
 import See from './See'
 import Upload from './Upload'
-
+import Showblock from './Showblock'
+import Blockchain from '../Blockchain/Blockchain'
 class _App extends Component {
 
     componentDidMount() {
+
         this.props.initIPFS()
+
     }
 
     render() {
@@ -60,6 +36,8 @@ class _App extends Component {
                                 </Box>
                                 <Route exact path='/upload' component={Upload} />
                                 <Route exact path='/see' component={See} />
+
+                                <Route exact path='/showblock' component={Showblock} />
                             </Box>
                             <Footer />
                         </div>
@@ -72,7 +50,10 @@ class _App extends Component {
 
 function mapStateToProps(state) {
     return {
-        ipfs: state.ipfs
+        ipfs: state.ipfs,
+
+
+
     }
 }
 

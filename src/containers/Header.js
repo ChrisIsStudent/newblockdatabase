@@ -13,13 +13,17 @@ class Header extends Component {
     render () {
         return (
             <Box align="center">
-                <Heading align="center">Blockchain Proof System</Heading>
+                <Heading align="center">Upload image and Hash on Blockchain</Heading>
                 <Tabs>
+                    <Tab title='Upload'>
+                        <Redirect to='/upload' />
+                    </Tab>
                     <Tab title='See'>
                         <Redirect to='/see' />
                     </Tab>
-                    <Tab title='Upload'>
-                        <Redirect to='/upload' />
+
+                    <Tab title='Blockchain'>
+                        <Redirect to='/showblock' />
                     </Tab>
                 </Tabs>
             </Box>
