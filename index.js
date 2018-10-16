@@ -5,11 +5,26 @@ const app = express()
 const cors = require('cors')
 const bodyParser  =  require("body-parser");
 const fs = require('fs')
+
+// backend for user By allon
+const jwt = require('./backend/_helpers/jwt');
+const errorHandler = require('./backend/_helpers/error-handler');
+
 app.use(cors())
 app.use(compression())
 app.use(express.static(path.join(__dirname, 'index.html')))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+// use JWT auth to secure the api
+// app.use(jwt());
+
+
+// api routes
+app.use('/users', require('./backend/users/users.controller'));
+
+// global error handler
+app.use(errorHandler);
+
 
 app.get('/blockchain', (req, res) => {
   // fs.writeFile('blockchain.txt', 'Hello world!\n', () => {
