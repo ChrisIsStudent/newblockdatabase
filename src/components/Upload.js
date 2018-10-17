@@ -29,16 +29,15 @@ class Put extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
 
         this.blockchain = new Blockchain()
+        this.blocks = {}
         // this.blockchain.mine("123")
         //
         // //
         // console.log(this.blockchain)
         // console.log("mining..")
         this.blockchain.loadFromFile(response => {
-
-
-
-            console.log( this.blockchain.latestBlock)
+            this.blocks = response
+            //console.log( this.blockchain.latestBlock)
         })
 
     }
@@ -80,17 +79,31 @@ class Put extends Component {
                         failure: `Error occured: ${err.message}`
                     })
                 } else {
-                    this.setState({
-                        modalOpen: true,
-                        hash: _hash,
-                        success: `Success! Your hash: ${_hash}`
-                    })
-                    console.log("mining")
-                    this.blockchain.mine(_hash)
-                    this.blockchain.saveToFile()
-                    //
-                    console.log(this.blockchain)
-                    console.log("mining..")
+
+                    let duplicate = false;
+                    for(let block of this.blocks) {
+                        if (block.data == _hash) {
+                            this.setState({
+                                modalOpen: true,
+                                failure: `Sorry, existing image.`
+                            })
+                            duplicate = true
+                        }
+                    }
+
+                    if(!duplicate){
+                        console.log("success hash")
+                        this.setState({
+                            modalOpen: true,
+                            hash: _hash,
+                            success: `Success! Your hash: ${_hash}`
+                        })
+                        this.blockchain.mine(_hash)
+                        this.blockchain.saveToFile()
+                    }
+                    // console.log("mining")
+                    // console.log(this.blockchain)
+                    // console.log("mining..")
                 }
             })
         } else {
