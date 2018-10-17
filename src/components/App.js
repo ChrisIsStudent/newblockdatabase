@@ -35,6 +35,7 @@ class App extends React.Component {
         const {alert} = this.props;
 
         return (
+
             <div className="jumbotron">
                 <div className="container">
                     {alert.message &&
@@ -46,6 +47,7 @@ class App extends React.Component {
                             {this.state.user ? "Login Out" : ""}
                         </div>
                     </div>
+
                     <Router history={history}>
                         <div>
                             <PrivateRoute exact path="/" component={Display}/>
