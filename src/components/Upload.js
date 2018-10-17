@@ -22,7 +22,10 @@ class Put extends Component {
             failure: '',
             modalOpen: false,
             document: '',
-            loading: false
+            loading: false,
+            imagePassword: '',
+            description: '',
+            user: JSON.parse(localStorage.getItem("user"))
         }
 
         this.handleUploadFile = this.handleUploadFile.bind(this)
@@ -30,14 +33,8 @@ class Put extends Component {
 
         this.blockchain = new Blockchain()
         this.blocks = {}
-        // this.blockchain.mine("123")
-        //
-        // //
-        // console.log(this.blockchain)
-        // console.log("mining..")
         this.blockchain.loadFromFile(response => {
             this.blocks = response
-            //console.log( this.blockchain.latestBlock)
         })
 
     }
@@ -61,8 +58,14 @@ class Put extends Component {
                 failure: `We can accept only image files.`
             })
         }
+    }
 
+    handleImagePasswordChange = (e) =>{
+        this.setState({imagePassword: e.target.value});
+    }
 
+    handleDescriptionChange = (e) =>{
+        this.setState({description: e.target.value});
     }
 
     handleSubmit(event) {
@@ -82,7 +85,7 @@ class Put extends Component {
 
                     let duplicate = false;
                     for(let block of this.blocks) {
-                        if (block.data == _hash) {
+                        if (block.data.hash == _hash) {
                             this.setState({
                                 modalOpen: true,
                                 failure: `Sorry, existing image.`
@@ -98,12 +101,14 @@ class Put extends Component {
                             hash: _hash,
                             success: `Success! Your hash: ${_hash}`
                         })
-                        this.blockchain.mine(_hash)
+                        this.blockchain.mine({
+                            username: this.state.user.username,
+                            imagePassword: this.state.imagePassword,
+                            description: this.state.description,
+                            hash: _hash
+                        })
                         this.blockchain.saveToFile()
                     }
-                    // console.log("mining")
-                    // console.log(this.blockchain)
-                    // console.log("mining..")
                 }
             })
         } else {
@@ -128,6 +133,14 @@ class Put extends Component {
                         <Box pad='small' align='center'>
                             <Label>Please attach your image:</Label>
                             <input id='file' name='document' type='file' onChange={this.handleUploadFile}/>
+                        </Box>
+                        <Box pad='small' align='center'>
+                            <Label>Use unique image password to access your image (not required)</Label>
+                            <input id='imagePassword' name='imagePassword' type='password' onChange={this.handleImagePasswordChange} placeholder='image password'/>
+                        </Box>
+                        <Box pad='small' align='center'>
+                            <Label>Image description (not required)</Label>
+                            <input id='imagePassword' name='description' type='text' onChange={this.handleDescriptionChange} placeholder='image description'/>
                         </Box>
                         <Box pad='small' align='center'>
                             {this.state.loading ? 'Loading...' : <Button primary={true} type='submit' label='Upload'/>}

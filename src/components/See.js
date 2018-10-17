@@ -9,6 +9,7 @@ import Form from 'grommet/components/Form'
 import Button from 'grommet/components/Button'
 import TextInput from 'grommet/components/TextInput'
 import Image from 'grommet/components/Image'
+import Blockchain from "../Blockchain/Blockchain";
 
 class Home extends Component {
     constructor(props) {
@@ -20,11 +21,22 @@ class Home extends Component {
             modalOpen: false,
             hash: '',
             data: '',
-            loading: false
+            loading: false,
+            imagePassword: '',
+            showpwd: false,
+            valid: false
         }
+
+        this.blockchain = new Blockchain()
+        this.blocks = {}
 
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleImagePasswordChange = this.handleImagePasswordChange.bind(this)
+    }
+
+    handleImagePasswordChange = (e) =>{
+        this.setState({imagePassword: e.target.value});
     }
 
     handleChange(event) {
@@ -51,8 +63,29 @@ class Home extends Component {
                         failure: `Error occured: ${err.message}`
                     })
                 } else {
-                    this.setState({
-                        data: data
+                    this.blockchain.loadFromFile(response => {
+                        this.blocks = response
+                        for (let block of this.blocks) {
+                            if (block.data.hash == this.state.hash && block.data.imagePassword != this.state.imagePassword) {
+                                this.setState({
+                                    showpwd: true
+                                })
+                                console.log(block.data.imagePassword)
+                                console.log(this.state.imagePassword)
+                                console.log("required")
+                                return
+                            }
+                            this.setState({
+                                showpwd: false
+                            })
+                        }
+                        if(!this.state.showpwd) {
+                            this.setState({
+                                valid: true,
+                                data: data
+                            })
+                            console.log("right passwod")
+                        }
                     })
                 }
             })
@@ -86,6 +119,12 @@ class Home extends Component {
                                        value={this.state.hash}
                                        placeHolder='E.g. QmfWyGyMYHqqzEFUmfoUJyPQ6EzGnoB18v9CNbPjczXGgH' />
                         </Box>
+                        { this.state.showpwd &&
+                            <Box pad='small' align='center'>
+                            <Label>Password required: </Label>
+                            <input name='imagePassword' type='password' onChange={this.handleImagePasswordChange} placeholder='image password'/>
+                            </Box>
+                        }
                         <Box pad='small' align='center'>
                             { this.state.loading ? 'Loading...' : <Button primary={true} type='submit' label='Get it' /> }
                         </Box>
@@ -93,17 +132,17 @@ class Home extends Component {
                             <Label align="cenyer">{ this.state.hash ? `Hash: ${this.state.hash}` : '' }</Label>
                         </Box>
                     </Form>
-                    { this.state.data ? <Image src={this.state.data} size='large' align="center" />
+                    { this.state.data && this.state.valid ? <Image src={this.state.data} size='large' align="center" />
                         : ''
                     }
-                    <Box align="center">
-                        <Label align="center">
-                            If you want to add this image as your image source, use this url:
-                        </Label>
-                        <pre>
-              https://ipfs.infura.io:5001/api/v0/cat/{this.state.hash}
-            </pre>
-                    </Box>
+                    {this.state.valid &&
+                        <Box align="center">
+                            <Label align="center">
+                                If you want to add this image as your image source, use this url:
+                            </Label>
+                            <pre>https://ipfs.infura.io:5001/api/v0/cat/{this.state.hash}</pre>
+                        </Box>
+                    }
                 </Box>
                 { this.state.modalOpen && <Toast
                     status={this.state.success ? 'ok' : 'critical' }>
