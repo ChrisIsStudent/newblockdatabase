@@ -11,7 +11,8 @@ class Showblock extends Component {
         super(props)
 
         this.state = {
-            blockTable: []
+            blockTable: [],
+            user: JSON.parse(localStorage.getItem("user"))
         }
 
         this.blockchain = new Blockchain
@@ -20,10 +21,12 @@ class Showblock extends Component {
             this.blocks = response
             let arr = []
             for(let block of this.blocks) {
-                arr.push(<tr>
-                    <td>{block.index}</td>
-                    <td>{block.hash}</td>
-                </tr>)
+                if (this.state.user.username == block.data.username) {
+                    arr.push(<tr>
+                        <td>{block.index}</td>
+                        <td>{block.hash}</td>
+                    </tr>)
+                }
             }
             this.setState({
                 blockTable: arr
