@@ -1,6 +1,6 @@
-import config from 'config';
-import { authHeader } from '../_helpers';
 
+import { authHeader } from '../_helpers';
+const config = require('./config.json')
 export const userService = {
     login,
     logout,
@@ -55,6 +55,7 @@ function getById(id) {
 }
 
 function register(user) {
+    console.log(config.apiUrl);
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -91,7 +92,6 @@ function handleResponse(response) {
             if (response.status === 401) {
                 // auto logout if 401 response returned from api
                 logout();
-                location.reload(true);
             }
 
             const error = (data && data.message) || response.statusText;

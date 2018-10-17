@@ -1,60 +1,56 @@
+import React from 'react';
+import { Router, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { BrowserRouter, Route } from 'react-router-dom'
+import { history } from '../user/_helpers';
+import { alertActions } from '../user/_actions';
+import { PrivateRoute } from '../user/_components';
+import { HomePage } from '../user/HomePage';
+import { LoginPage } from '../user/LoginPage';
+import { RegisterPage } from '../user/RegisterPage';
+import Display from "./Display";
 
-import '../../node_modules/grommet-css'
-import App from 'grommet/components/App'
-import Box from 'grommet/components/Box'
+import * as actions from "../actions";
 
-import * as actions from '../actions'
-import Header from '../containers/Header'
-import Footer from '../containers/Footer'
-import Status from './Status'
-import See from './See'
-import Upload from './Upload'
-import Showblock from './Showblock'
-import Blockchain from '../Blockchain/Blockchain'
-class _App extends Component {
+class App extends React.Component {
+    constructor(props) {
+        super(props);
 
-    componentDidMount() {
-
-        this.props.initIPFS()
-
+        const { dispatch } = this.props;
+        history.listen((location, action) => {
+            // clear alert on location change
+            dispatch(alertActions.clear());
+        });
     }
 
     render() {
+        const { alert } = this.props;
         return (
-            <App>
-                <div>
-                    <BrowserRouter>
-                        <div>
-                            <Box align='center' responsive={true} pad='large'>
-                                <Status ipfs={this.props.ipfs} {...this.props} />
-                                <Box align='center' responsive={true} pad='medium'>
-                                    <Header />
-                                </Box>
-                                <Route exact path='/upload' component={Upload} />
-                                <Route exact path='/see' component={See} />
-
-                                <Route exact path='/showblock' component={Showblock} />
-                            </Box>
-                            <Footer />
-                        </div>
-                    </BrowserRouter>
+            <div className="jumbotron">
+                <div className="container">
+                    <div className="col-sm-8 col-sm-offset-2">
+                        {alert.message &&
+                        <div className={`alert ${alert.type}`}>{alert.message}</div>
+                        }
+                        <Router history={history}>
+                            <div>
+                                <PrivateRoute exact path="/" component={Display} />
+                                <Route path="/login" component={LoginPage} />
+                                <Route path="/register" component={RegisterPage} />
+                            </div>
+                        </Router>
+                    </div>
                 </div>
-            </App>
-        )
+            </div>
+        );
     }
 }
 
 function mapStateToProps(state) {
+    const { alert } = state;
     return {
-        ipfs: state.ipfs,
-
-
-
-    }
+        alert
+    };
 }
-
-export default connect(mapStateToProps, actions)(_App)
+const connectedApp = connect(mapStateToProps)(App);
+export { connectedApp as App };
