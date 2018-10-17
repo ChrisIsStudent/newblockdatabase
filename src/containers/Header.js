@@ -23,11 +23,12 @@ class Header extends Component {
                     <Tab title='See'>
                         <Redirect to='/see' />
                     </Tab>
-
                     <Tab title='Blockchain'>
                         <Redirect to='/showblock' />
                     </Tab>
-
+                    <Tab title='My Blockchain'>
+                        <Redirect to='/myblock' />
+                    </Tab>
                 </Tabs>
             </Box>
         )

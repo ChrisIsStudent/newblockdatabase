@@ -1,7 +1,6 @@
-
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { BrowserRouter, Route } from 'react-router-dom'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {BrowserRouter, Route} from 'react-router-dom'
 
 import '../../node_modules/grommet-css'
 import App from 'grommet/components/App'
@@ -14,9 +13,11 @@ import Status from './Status'
 import See from './See'
 import Upload from './Upload'
 import Showblock from './Showblock'
-import { LoginPage } from '../user/LoginPage';
+import Myblock from './myblock'
+import {LoginPage} from '../user/LoginPage';
 
 import Blockchain from '../Blockchain/Blockchain'
+
 class Display extends Component {
 
     componentDidMount() {
@@ -28,25 +29,26 @@ class Display extends Component {
     render() {
         return (
 
-                <div>
-                    <BrowserRouter>
-                        <div>
-                            <Box align='center' responsive={true} pad='large'>
-                                <Status ipfs={this.props.ipfs} {...this.props} />
-                                <Box align='center' responsive={true} pad='medium'>
-                                    <Header />
-                                </Box>
-                                <Route exact path='/upload' component={Upload} />
-                                <Route exact path='/see' component={See} />
-
-                                <Route exact path='/showblock' component={Showblock} />
-
-
+            <div>
+                <BrowserRouter>
+                    <div>
+                        <Box align='center' responsive={true} pad='large'>
+                            <Status ipfs={this.props.ipfs} {...this.props} />
+                            <Box align='center' responsive={true} pad='medium'>
+                                <Header/>
                             </Box>
-                            <Footer />
-                        </div>
-                    </BrowserRouter>
-                </div>
+                            <Route exact path='/upload' component={Upload}/>
+                            <Route exact path='/see' component={See}/>
+
+                            <Route exact path='/showblock' component={Showblock}/>
+                            <Route exact path='/myblock' component={Myblock}/>
+
+
+                        </Box>
+                        <Footer/>
+                    </div>
+                </BrowserRouter>
+            </div>
 
         )
     }
@@ -55,7 +57,6 @@ class Display extends Component {
 function mapStateToProps(state) {
     return {
         ipfs: state.ipfs,
-
 
 
     }

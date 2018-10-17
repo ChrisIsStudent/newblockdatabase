@@ -34,7 +34,7 @@ class Showblock extends Component {
     render() {
         return (
             <Box>
-                <Heading align="center">All blocks</Heading>
+                <Heading align="center">My blocks</Heading>
                 <Box  align="center">
                     <table>
                         <tr>
