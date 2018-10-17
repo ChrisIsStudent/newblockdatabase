@@ -8,6 +8,8 @@ import Tabs  from 'grommet/components/Tabs'
 import Tab  from 'grommet/components/Tab'
 
 import * as actions from '../actions'
+import {Route} from "react-router-dom";
+import {RegisterPage} from "../user/RegisterPage";
 
 class Header extends Component {
     render () {
@@ -25,6 +27,7 @@ class Header extends Component {
                     <Tab title='Blockchain'>
                         <Redirect to='/showblock' />
                     </Tab>
+
                 </Tabs>
             </Box>
         )

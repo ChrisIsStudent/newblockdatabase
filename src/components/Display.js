@@ -14,6 +14,8 @@ import Status from './Status'
 import See from './See'
 import Upload from './Upload'
 import Showblock from './Showblock'
+import { LoginPage } from '../user/LoginPage';
+
 import Blockchain from '../Blockchain/Blockchain'
 class Display extends Component {
 
@@ -38,6 +40,8 @@ class Display extends Component {
                                 <Route exact path='/see' component={See} />
 
                                 <Route exact path='/showblock' component={Showblock} />
+
+
                             </Box>
                             <Footer />
                         </div>

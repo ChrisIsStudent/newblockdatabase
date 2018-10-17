@@ -55,6 +55,11 @@ app.post('/blockchain', (req, res) => {
 // })
 
 // const PORT = process.env.PORT ? process.env.PORT : 3010
+app.get('/*', function (req, res) {
+    console.log(111);
+    res.sendFile(path.join(__dirname, 'public/index.html'));
+});
+
 const PORT = 3031
 app.listen(PORT, '0.0.0.0', (err) => {
   if (err) {

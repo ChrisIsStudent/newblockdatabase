@@ -13,6 +13,7 @@ class Showblock extends Component {
             block:[]
 
         }
+
         this.blockchain = new Blockchain
         this.blockchain.loadFromFile(response => {
 
@@ -22,18 +23,44 @@ class Showblock extends Component {
         }
     )
             console.log(response)
+
         })
     }
 
 
+
+
     render() {
+        const blockArray = JSON.stringify(this.blockchain.blockchain);
+        // {
+        //     blockArray.map((block)=>{
+        //         return (
+        //             <Box  align="center">
+        //
+        //             <div>
+        //                 <table>
+        //                     <tr>
+        //                         <td>{block.indent}</td>
+        //                     </tr>
+        //                     <tr>
+        //                         <td>{block.data}</td>
+        //                     </tr>
+        //                     <tr>
+        //                         <td>{block.hash}</td>
+        //                     </tr>
+        //                 </table>
+        //             </div>
+        //             </Box>
+        //         )
+        //     })
+        // }
         return (
             <Box  align="center">
 
 
 
                 <Box>
-                    { JSON.stringify(this.blockchain)}
+                    {blockArray}
                 </Box>
 
             </Box>
