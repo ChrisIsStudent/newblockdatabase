@@ -15,7 +15,8 @@ class Showblock extends Component {
         this.state = {
             blockTable: [],
             user: JSON.parse(localStorage.getItem("user")),
-            data:''
+            data: '',
+            displayItems: [],
         }
 
         this.blockchain = new Blockchain
@@ -23,70 +24,59 @@ class Showblock extends Component {
         this.blockchain.loadFromFile(response => {
             this.blocks = response
             let arr = []
-            for(let block of this.blocks) {
+            for (let block of this.blocks) {
                 if (this.state.user.username == block.data.username) {
-                    //     arr.push(<tr>
-                    //         <td>{block.index}</td>
-                    //         <td>{block.hash}</td>
-                    //     </tr>)
-                    // }
-                    arr.push({
-                        index:block.index,
-                        username: block.data.username,
-                        description: block.data.description,
-                        hash: block.data.hash,
-                        imagePassword: block.data.imagePassword,
+
+                    this.props.ipfs.catJSON(block.data.hash, async (err, data) => {
+                        if (err) {
+                            // console.log(err)
+                            this.setState({
+                                modalOpen: true,
+                                failure: `Error occured: ${err.message}`
+                            })
+                        } else {
+
+
+                            arr.push({
+                                index: block.index,
+                                username: block.data.username,
+                                description: block.data.description,
+                                hash: block.data.hash,
+                                imagePassword: block.data.imagePassword,
+                                image: data
+                            })
+
+                            this.setState({
+                                blockTable: arr,
+
+                            })
+                        }
                     })
+
                 }
             }
-            this.setState({
-                blockTable: arr
-            })
         })
+        
     }
 
     render() {
-        const displayItems = []
-            for(let block of this.state.blockTable){
-                this.props.ipfs.catJSON(block.hash, async (err, data) => {
-                    if(err) {
-                        // console.log(err)
-                        this.setState({
-                            modalOpen: true,
-                            failure: `Error occured: ${err.message}`
-                        })
-                    } else {
-                                this.setState({
-                                    data: data
-                                })
-                    }
-                })
-
-
-
-            displayItems.push(
-
-                <div key={block.index}>
-                    <div>UserName: {block.username}</div>
-                    <div>ImageHash: {block.hash}</div>
-                    <div>ImageDescription: {block.description}</div>
-                    <div>imgagePassword: {block.imagePassword}</div>
-                    <div><Image src={this.state.data} size='large' align="center" /></div>
-                    <br/>
-                </div>
-            )
-        }
-
-
-
 
         return (
 
             <Box>
                 <Heading align="center">My blocks</Heading>
-                <Box  align="center">
-
-                        {displayItems}
+                <Box align="center">
+                    {this.state.blockTable.map(item => (
+                        <div key={item.index}>
+                            <div>UserName: {item.username}</div>
+                            <div>ImageHash: {item.hash}</div>
+                            <div>ImageDescription: {item.description}</div>
+                            <div>imgagePassword: {item.imagePassword}</div>
+                            <div><Image src={item.image} size='large' align="center"/></div>
+                            <br/>
+                        </div>
+                    ))}
+                    {}
                 </Box>
             </Box>
         )
