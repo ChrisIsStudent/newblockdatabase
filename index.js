@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 
 // api routes
 app.use('/users', require('./backend/users/users.controller'));
+app.use('/blocks',require('./backend/block/blocks.controller'))
 
 // global error handler
 app.use(errorHandler);

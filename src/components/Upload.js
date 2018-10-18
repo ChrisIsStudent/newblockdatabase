@@ -9,7 +9,8 @@ import Label from 'grommet/components/Label'
 import Form from 'grommet/components/Form'
 
 import Blockchain from '../Blockchain/Blockchain'
-
+import {blockActions} from "../actions/block.actions";
+import {userActions} from "../user/_actions";
 
 
 class Put extends Component {
@@ -76,6 +77,7 @@ class Put extends Component {
         })
 
         if (this.state.document !== '') {
+            const { dispatch } = this.props;
             this.props.ipfs.addJSON(this.state.document, async (err, _hash) => {
                 if (err) {
                     this.setState({
@@ -108,6 +110,8 @@ class Put extends Component {
                             hash: _hash
                         })
                         this.blockchain.saveToFile()
+                        dispatch(blockActions.create(this.blockchain.latestBlock));
+
                     }
                 }
             })
