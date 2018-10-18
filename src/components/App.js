@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router, Route} from 'react-router-dom';
+import {Router, Route,Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import {history} from '../user/_helpers';
@@ -13,7 +13,12 @@ import {Link} from 'react-router-dom';
 
 
 import * as actions from "../actions";
-
+import Upload from "./Upload";
+import See from "./See";
+import Showblock from "./Showblock";
+import Myblock from "./myblock";
+import Box from "grommet/components/Box";
+import Notfound from "./404"
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -32,13 +37,35 @@ class App extends React.Component {
 
 
         this.onClickLoginOut = this.onClickLoginOut.bind(this)
+        let user = localStorage.getItem("user");
+
+        this.setState({
+            user:  JSON.parse(user),
+
+
+        });
+
 
     }
 
     componentDidMount() {
 
 
+        if(!this.state.user){
 
+            setTimeout(function() { //Start the timer
+                let user = localStorage.getItem("user");
+
+                this.setState({
+                    user:  JSON.parse(user),
+
+
+                });
+
+
+            }.bind(this), 1000)
+
+        }
 
     }
 
@@ -47,13 +74,14 @@ class App extends React.Component {
 
             setTimeout(function() { //Start the timer
                 let user = localStorage.getItem("user");
-                console.log("ddd1" + user);
+
                 this.setState({
                     user:  JSON.parse(user),
 
 
                 });
-                
+
+
             }.bind(this), 1000)
 
         }
@@ -92,9 +120,19 @@ class App extends React.Component {
                                 </div>
                             </div>
                             <div className="container">
-                                <PrivateRoute exact path="/" component={Display}/>
                                 <Route path="/login" component={LoginPage}/>
                                 <Route path="/register" component={RegisterPage}/>
+                                <PrivateRoute exact path= "/" component={Display}/>
+                                <PrivateRoute exact path="/upload" component={Display}/>
+
+
+                                <Route  path='/upload' component={Display}/>
+                                <Route  path='/see' component={Display}/>
+
+                                <Route  path='/showblock' component={Display}/>
+                                <Route  path='/myblock' component={Display}/>
+                                {/*<Route path='/404' component={Notfound} />*/}
+                                {/*<Redirect from='*' to='/404' />*/}
                             </div>
                         </div>
                     </Router>

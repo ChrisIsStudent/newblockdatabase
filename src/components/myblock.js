@@ -27,7 +27,9 @@ class Showblock extends Component {
             let arr = []
             for (let block of this.blocks) {
                 if (this.state.user.username == block.data.username) {
-
+                    if( !this.props.ipfs.catJSON){
+                        return
+                    }
                     this.props.ipfs.catJSON(block.data.hash, async (err, data) => {
                         if (err) {
                             // console.log(err)

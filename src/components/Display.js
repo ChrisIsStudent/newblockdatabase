@@ -30,6 +30,7 @@ class Display extends Component {
         return (
 
             <div>
+
                 <BrowserRouter>
                     <div>
                         <Box align='center' responsive={true} pad='large'>
@@ -37,11 +38,11 @@ class Display extends Component {
                             <Box align='center' responsive={true} pad='medium'>
                                 <Header/>
                             </Box>
-                            <Route exact path='/upload' component={Upload}/>
-                            <Route exact path='/see' component={See}/>
+                            <Route  path='/upload' component={Upload}/>
+                            <Route  path='/see' component={See}/>
 
-                            <Route exact path='/showblock' component={Showblock}/>
-                            <Route exact path='/myblock' component={Myblock}/>
+                            <Route  path='/showblock' component={Showblock}/>
+                            <Route  path='/myblock' component={Myblock}/>
 
 
                         </Box>

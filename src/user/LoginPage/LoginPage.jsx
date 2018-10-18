@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { userActions } from '../_actions';
 
+import { browserHistory } from 'react-router'
 class LoginPage extends React.Component {
     constructor(props) {
         super(props);
@@ -19,6 +20,10 @@ class LoginPage extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
+
+
+
     }
 
     handleChange(e) {
@@ -37,6 +42,12 @@ class LoginPage extends React.Component {
         }
     }
 
+    componentDidUpdate(){
+
+    }
+
+
+t
     render() {
         const { loggingIn } = this.props;
         const { username, password, submitted } = this.state;
@@ -79,4 +90,4 @@ function mapStateToProps(state) {
 }
 
 const connectedLoginPage = connect(mapStateToProps)(LoginPage);
-export { connectedLoginPage as LoginPage }; 
+export { connectedLoginPage as LoginPage };
