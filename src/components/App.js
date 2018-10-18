@@ -50,9 +50,9 @@ class App extends React.Component {
                     <Router history={history}>
                         <div>
                             <div className="header">
-                                <div className="col-sm-10">{this.state.user!=null ? "Hi, "+this.state.user.username : ""}</div>
+                                <div className="col-sm-10">{localStorage.getItem('user') ? "Hi": ""}</div>
                                 <div className="col-sm-2">
-                                    {this.state.user !=null ?          <Link to="/login">Logout</Link> : ""}
+                                    {localStorage.getItem('user')  ?          <Link to="/login">Logout</Link> : ""}
                                 </div>
                             </div>
                             <PrivateRoute exact path="/" component={Display}/>
