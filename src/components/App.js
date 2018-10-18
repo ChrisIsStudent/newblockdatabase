@@ -9,7 +9,7 @@ import {HomePage} from '../user/HomePage';
 import {LoginPage} from '../user/LoginPage';
 import {RegisterPage} from '../user/RegisterPage';
 import Display from "./Display";
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 
 import * as actions from "../actions";
@@ -19,7 +19,7 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            user: {}
+              user: null
         }
 
         const {dispatch} = this.props;
@@ -28,12 +28,37 @@ class App extends React.Component {
             dispatch(alertActions.clear());
         });
 
-        let user = localStorage.getItem("user")
-        this.state.user = JSON.parse(user)
+
+
 
         this.onClickLoginOut = this.onClickLoginOut.bind(this)
 
     }
+
+    componentDidMount() {
+
+
+
+
+    }
+
+    componentDidUpdate(){
+        if(!this.state.user){
+
+            setTimeout(function() { //Start the timer
+                let user = localStorage.getItem("user");
+                console.log("ddd1" + user);
+                this.setState({
+                    user:  JSON.parse(user),
+
+
+                });
+                
+            }.bind(this), 1000)
+
+        }
+    }
+
 
     onClickLoginOut() {
         this.setState({
@@ -55,15 +80,22 @@ class App extends React.Component {
 
                     <Router history={history}>
                         <div>
-                            <div className="header">
-                                <div className="col-sm-10">{this.state.user ? "Hi, "+this.state.user.username: <Link to="/login">Login</Link>}</div>
-                                <div className="col-sm-2">
-                                    {this.state.user ? <Link to="/login" onClick={this.onClickLoginOut}>Logout</Link> : ""}
+                            <div className="container">
+                                <div className="header">
+                                    <div className="col-sm-10">{this.state.user ? "Hi, " + this.state.user.username :
+                                        <Link to="/login">Login</Link>}</div>
+                                    <div className="col-sm-2">
+                                        {this.state.user ?
+                                            <Link to="/login" onClick={this.onClickLoginOut}>Logout</Link> :
+                                            <Link to="/login" onClick={this.onClickLoginOut}>{this.state.user}</Link>}
+                                    </div>
                                 </div>
                             </div>
-                            <PrivateRoute exact path="/" component={Display}/>
-                            <Route path="/login" component={LoginPage}/>
-                            <Route path="/register" component={RegisterPage}/>
+                            <div className="container">
+                                <PrivateRoute exact path="/" component={Display}/>
+                                <Route path="/login" component={LoginPage}/>
+                                <Route path="/register" component={RegisterPage}/>
+                            </div>
                         </div>
                     </Router>
                 </div>
