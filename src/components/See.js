@@ -129,10 +129,10 @@ class Home extends Component {
                             { this.state.loading ? 'Loading...' : <Button  style={{backgroundColor:'green'}} primary={true} type='submit' label='Get it' /> }
                         </Box>
                         <Box pad='small' align='center'>
-                            <Label align="cenyer">{ this.state.hash ? `Hash: ${this.state.hash}` : '' }</Label>
+                            <Label align="center">{ this.state.hash ? `Hash: ${this.state.hash}` : '' }</Label>
                         </Box>
                     </Form>
-                    { this.state.data && this.state.valid ? <Image src={this.state.data} size='large' align="center" />
+                    { this.state.data && this.state.valid ? <Image src={this.state.data} size='large' />
                         : ''
                     }
                     {this.state.valid &&

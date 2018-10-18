@@ -7,6 +7,7 @@ import Blockchain from '../Blockchain/Blockchain'
 import Heading from "grommet/components/Heading";
 import Image from 'grommet/components/Image';
 
+import moment from 'moment'
 
 class Showblock extends Component {
     constructor(props) {
@@ -41,6 +42,7 @@ class Showblock extends Component {
                                 index: block.index,
                                 username: block.data.username,
                                 description: block.data.description,
+                                timestamp: moment(block.timestamp).format("YYYY-MM-DD HH:mm:ss"),
                                 hash: block.data.hash,
                                 imagePassword: block.data.imagePassword,
                                 image: data
@@ -70,9 +72,10 @@ class Showblock extends Component {
                         <div key={item.index}>
                             <div>UserName: {item.username}</div>
                             <div>ImageHash: {item.hash}</div>
+                            <div>Create Time: {item.timestamp}</div>
                             <div>ImageDescription: {item.description}</div>
                             <div>imgagePassword: {item.imagePassword}</div>
-                            <div><Image src={item.image} size='large' align="center"/></div>
+                            <div><Image src={item.image} size='large' /></div>
                             <br/>
                         </div>
                     ))}

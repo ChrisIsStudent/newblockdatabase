@@ -5,6 +5,7 @@ import Box from "grommet/components/Box";
 import React from "react";
 import Blockchain from '../Blockchain/Blockchain'
 import Heading from "grommet/components/Heading";
+import moment from 'moment'
 
 class Showblock extends Component {
     constructor(props) {
@@ -20,10 +21,17 @@ class Showblock extends Component {
             this.blocks = response
             let arr = []
             for(let block of this.blocks) {
-                arr.push(<tr>
-                    <td>{block.index}</td>
-                    <td>{block.hash}</td>
-                </tr>)
+                arr.push(
+                    {
+                        index:block.index,
+                        username: block.data.username,
+                        timestamp: moment(block.timestamp).format("YYYY-MM-DD HH:mm:ss"),
+                        previousHash:block.previousHash,
+                        hash: block.hash,
+                        imageHash: block.data.hash
+
+                    }
+                )
             }
             this.setState({
                 blockTable: arr
@@ -36,13 +44,17 @@ class Showblock extends Component {
             <Box>
                 <Heading align="center">All blocks</Heading>
                 <Box  align="center">
-                    <table>
-                        <tr>
-                            <th>index</th>
-                            <th>hash</th>
-                        </tr>
-                        {this.state.blockTable}
-                    </table>
+                    {this.state.blockTable.map(item => (
+                        <div key={item.index}>
+                            <div>Index: {item.index}</div>
+                            <div>UserName: {item.username}</div>
+                            <div>Image Hash: {item.imageHash}</div>
+                            <div>Create Time: {item.timestamp}</div>
+                            <div>previousHash: {item.previousHash}</div>
+                            <div>BlockHash: {item.hash}</div>
+                            <br/>
+                        </div>
+                    ))}
                 </Box>
             </Box>
         )
