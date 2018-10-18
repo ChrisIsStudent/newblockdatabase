@@ -18,7 +18,7 @@ import See from "./See";
 import Showblock from "./Showblock";
 import Myblock from "./myblock";
 import Box from "grommet/components/Box";
-import Notfound from "./404"
+
 class App extends React.Component {
     constructor(props) {
         super(props);
