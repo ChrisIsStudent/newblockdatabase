@@ -126,7 +126,7 @@ class Home extends Component {
                             </Box>
                         }
                         <Box pad='small' align='center'>
-                            { this.state.loading ? 'Loading...' : <Button primary={true} type='submit' label='Get it' /> }
+                            { this.state.loading ? 'Loading...' : <Button  style={{backgroundColor:'green'}} primary={true} type='submit' label='Get it' /> }
                         </Box>
                         <Box pad='small' align='center'>
                             <Label align="cenyer">{ this.state.hash ? `Hash: ${this.state.hash}` : '' }</Label>

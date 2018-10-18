@@ -127,7 +127,7 @@ class Put extends Component {
     render() {
         return (
             <Box align="center">
-                <Heading align="center">Upload image to Interplanetary File System (IPFS)</Heading>
+                <Heading align="center">Upload Image</Heading>
                 <Box align='center'>
                     <Form onSubmit={this.handleSubmit}>
                         <Box pad='small' align='center'>
@@ -143,7 +143,7 @@ class Put extends Component {
                             <input id='imagePassword' name='description' type='text' onChange={this.handleDescriptionChange} placeholder='image description'/>
                         </Box>
                         <Box pad='small' align='center'>
-                            {this.state.loading ? 'Loading...' : <Button primary={true} type='submit' label='Upload'/>}
+                            {this.state.loading ? 'Loading...' : <Button  style={{backgroundColor:'green'}} primary={true} type='submit' label='Upload'/>}
                         </Box>
                     </Form>
                     {this.state.hash !== '' ? `Note your hash: ${this.state.hash}` : ''}

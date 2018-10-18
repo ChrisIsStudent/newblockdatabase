@@ -15,7 +15,7 @@ class Header extends Component {
     render () {
         return (
             <Box align="center">
-                <Heading align="center">Upload image and Hash on Blockchain</Heading>
+                <Heading align="center">Securely share files on the blockchain with IPFS</Heading>
                 <Tabs>
                     <Tab title='Upload'>
                         <Redirect to='/upload' />
