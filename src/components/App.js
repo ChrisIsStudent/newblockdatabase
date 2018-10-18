@@ -31,7 +31,14 @@ class App extends React.Component {
         let user = localStorage.getItem("user")
         this.state.user = JSON.parse(user)
 
+        this.onClickLoginOut = this.onClickLoginOut.bind(this)
 
+    }
+
+    onClickLoginOut() {
+        this.setState({
+            user: null
+        })
     }
 
     render() {
@@ -46,13 +53,12 @@ class App extends React.Component {
                     <div className={`alert ${alert.type}`}>{alert.message}</div>
                     }
 
-
                     <Router history={history}>
                         <div>
                             <div className="header">
-                                <div className="col-sm-10">{localStorage.getItem('user') ? "Hi": ""}</div>
+                                <div className="col-sm-10">{this.state.user ? "Hi, "+this.state.user.username: <Link to="/login">Login</Link>}</div>
                                 <div className="col-sm-2">
-                                    {localStorage.getItem('user')  ?          <Link to="/login">Logout</Link> : ""}
+                                    {this.state.user ? <Link to="/login" onClick={this.onClickLoginOut}>Logout</Link> : ""}
                                 </div>
                             </div>
                             <PrivateRoute exact path="/" component={Display}/>
